@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from 'next/link';
 
 export default function LandingPage() {
   return (
@@ -17,9 +18,11 @@ export default function LandingPage() {
               guidance and support on your journey towards healing.
             </p>
             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-              <button className="font-semibold px-6 py-3 rounded-full bg-custom-pink text-black hover:bg-purple-600 transition-colors duration-300">
-                Start Chatting
-              </button>
+              <Link href="/chat" passHref>
+                <button className="font-semibold px-6 py-3 rounded-full bg-custom-pink text-black hover:bg-purple-600 transition-colors duration-300">
+                  Start Chatting
+                </button>
+              </Link>
               <button className="px-6 py-3 rounded-full bg-transparent border border-gray-600 text-gray-400 hover:text-white hover:bg-gray-700 transition-colors duration-300">
                 Learn More
               </button>
@@ -30,12 +33,12 @@ export default function LandingPage() {
               <div className="md:w-1/2 relative">
                 <Blob className="absolute inset-0 -z-10" />
                 <div className="relative h-80 md:h-96 rounded-2xl shadow-2xl overflow-hidden">
-                    <Image
-                      src="/assets/landing.jpg"
-                      alt="Hero Image"
-                      fill
-                      className="object-cover"
-                    />
+                  <Image
+                    src="/assets/landing.jpg"
+                    alt="Hero Image"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
               </div>
             </div>
