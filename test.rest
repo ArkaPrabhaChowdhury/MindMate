@@ -1,6 +1,16 @@
-POST http://localhost:3000/api/test
+
+
+POST http://localhost:3000/api/chat
 Content-Type: application/json
 
 {
-    "prompt" : "hi how are you"
+  "uid": "W4ElMP4RhMfug4uzSgSRmbAuIv92",
+  "chat_history": [
+    {"content": "Hello", "response": "Hi there!"},
+    {"content": "How are you?", "response": "I'm doing well, thanks for asking!"}
+  ]
 }
+
+###
+
+GET http://localhost:3000/api/community
