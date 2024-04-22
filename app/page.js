@@ -29,7 +29,7 @@ export default function LandingPage() {
           <div className="w-1/2">
             <div className="w-full h-full md:h-auto">
               <div className="md:w-1/2 relative">
-                {/* <Blob className="absolute inset-0 -z-10" /> */}
+                <Blob className="absolute inset-0 -z-10" />
                 <div className="relative h-80 md:h-96 rounded-2xl shadow-2xl overflow-hidden">
                     <Image
                       src="/assets/landing.jpg"
