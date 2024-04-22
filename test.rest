@@ -1,9 +1,14 @@
-POST http://localhost:3000/api/community
+
+
+POST http://localhost:3000/api/chat
 Content-Type: application/json
 
 {
   "uid": "W4ElMP4RhMfug4uzSgSRmbAuIv92",
-  "content": "This is a test post"
+  "chat_history": [
+    {"content": "Hello", "response": "Hi there!"},
+    {"content": "How are you?", "response": "I'm doing well, thanks for asking!"}
+  ]
 }
 
 ###
