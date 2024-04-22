@@ -17,7 +17,8 @@ export default function Page() {
   const router = useRouter();
   const handleSignUp = async (e) => {
     e.preventDefault();
-    await createUserWithEmailAndPassword(email, password);
+    const user = await createUserWithEmailAndPassword(email, password);
+    console.log(user);
   };
 
   if (user) {
