@@ -28,7 +28,7 @@ export async function GET(request) {
   try {
     await connectToDB();
 
-    const posts = await Post.find({});
+    const posts = await Post.find({ parentId: null });
 
     return NextResponse.json(posts);
   } catch (error) {
@@ -46,11 +46,16 @@ export async function PATCH(request) {
   try {
     await connectToDB();
 
-    const post = await Post.findById(postId);
+    const parentPost = await Post.findById(postId);
+    const commentPost = await Post.findById(commentId);
 
-    post.comments.push(commentId);
+    parentPost.comments.push(commentId);
+    commentPost.parentId = postId;
 
-    await post.save();
+    await parentPost.save();
+    await commentPost.save();
+
+    return NextResponse.json({ message: "Comment added successfully!" });
   } catch (error) {
     console.error("Error Adding comments", error);
     return NextResponse.json(

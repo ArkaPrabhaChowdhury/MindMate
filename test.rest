@@ -1,4 +1,4 @@
-POST http://localhost:3000/api/community
+POST http://localhost:3000/api/post
 Content-Type: application/json
 
 {
@@ -8,4 +8,18 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/community
+GET http://localhost:3000/api/post
+
+###
+
+PATCH http://localhost:3000/api/post
+Content-Type: application/json
+
+{
+  "commentId": "6626bb047bc53ad33abaf15a",
+  "postId": "6626bb0c7bc53ad33abaf15c"
+}
+
+###
+
+GET http://localhost:3000/api/post/6626bb047bc53ad33abaf15a
