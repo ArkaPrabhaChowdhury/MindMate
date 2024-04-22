@@ -42,15 +42,12 @@ const ChatScreen = ({ chatId }) => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (newMessage.trim()) {
-      const chatObject = {
-        content: newMessage,
-        response: "",
-      };
-  
-      setMessages((prevMessages) => [...prevMessages, { content: newMessage, sender: "user" }, chatObject]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { content: newMessage, sender: "user" },
+      ]);
       setNewMessage("");
       setIsLoading(true);
-  
       try {
         const options = {
           method: 'POST',
@@ -62,7 +59,7 @@ const ChatScreen = ({ chatId }) => {
           body: JSON.stringify({
             model: 'mistral-7b-instruct',
             messages: [
-              { role: 'system', content: 'you are a useful assistant do what you can to assist the users query' },
+              { role: 'system', content: 'you are a useful assistant do what you can to assist the users  query' },
               { role: 'user', content: newMessage }
             ]
           })
@@ -72,19 +69,10 @@ const ChatScreen = ({ chatId }) => {
         const data = await response.json();
   
         if (response.ok) {
-          chatObject.response = data.choices[0].message.content;
-          setMessages((prevMessages) => [...prevMessages, { response: data.choices[0].message.content, sender: "bot" }, chatObject]);
-  
-          // Send the updated chat history to the server
-          const uid = "W4ElMP4RhMfug4uzSgSRmbAuIv92"; // Replace with the actual user ID
-          const chatHistory = [...messages, chatObject];
-          await fetch('/api/chat', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ uid, chatHistory })
-          });
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { response: data.choices[0].message.content, sender: "bot" },
+          ]);
         } else {
           showErrorToast("An error occurred while fetching the response");
         }
@@ -97,6 +85,52 @@ const ChatScreen = ({ chatId }) => {
     }
   };
 
+
+//   const sendData = async (e) => {
+//   e.preventDefault();
+
+//   try {
+//     // const res = await fetch("/api/chat", {
+//     //   method: "POST",
+//     //   headers: {
+//     //     "Content-Type": "application/json",
+//     //   },
+//     //   body: JSON.stringify({ newMessage }),
+//     // });
+
+//     // if (!res.ok) {
+//     //   throw new Error("Network response was not ok");
+//     // }
+
+//     // const data = await res.json();
+//     // console.log(data);
+//     // setMessages(data.text);
+//     // const options = {
+//     //   method: 'POST',
+//     //   headers: {
+//     //     accept: 'application/json',
+//     //     'content-type': 'application/json',
+//     //     authorization: 'Bearer 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'
+//     //   },
+//     //   body: JSON.stringify({
+//     //     model: 'mistral-7b-instruct',
+//     //     messages: [
+//     //       {role: 'system', content: 'you are a usefull assistant do what you can to assist the users  query'},
+//     //       {role: 'user', content: newMessage}
+//     //     ]
+//     //   })
+//     // };
+    
+//     // fetch('https://api.perplexity.ai/chat/completions', options)
+//     //   .then(response => response.json())
+//     //   .then(response => console.log(response))
+//     //   .catch(err => console.error(err));
+      
+//   } catch (error) {
+//     console.error("Error:", error);
+//     // Handle the error appropriately (e.g., display an error message to the user)
+//   }
+// };
 
 // UserMessage component
 const UserMessage = ({ message }) => (
