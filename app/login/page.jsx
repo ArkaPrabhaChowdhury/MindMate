@@ -1,9 +1,8 @@
 "use client";
-import Image from "next/image";
+import { auth } from "@/lib/firebase";
 import Link from "next/link";
 import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "@/lib/firebase";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
