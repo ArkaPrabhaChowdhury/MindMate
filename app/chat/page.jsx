@@ -1,7 +1,6 @@
 'use client'
+import CustomToast from "@/components/CustomToast";
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import CustomToast, { showErrorToast } from "./CustomToast";
 
 const ChatScreen = ({ chatId }) => {
   const [messages, setMessages] = useState([]);
@@ -59,6 +58,7 @@ const ChatScreen = ({ chatId }) => {
       } catch (error) {
         console.error("Error:", error);
         showErrorToast("An error occured! please retry")
+        
       } finally {
         setIsLoading(false);
       }
