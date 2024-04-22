@@ -1,6 +1,11 @@
-POST http://localhost:3000/api/test
+POST http://localhost:3000/api/community
 Content-Type: application/json
 
 {
-    "prompt" : "hi how are you"
+  "uid": "W4ElMP4RhMfug4uzSgSRmbAuIv92",
+  "content": "This is a test post"
 }
+
+###
+
+GET http://localhost:3000/api/community
