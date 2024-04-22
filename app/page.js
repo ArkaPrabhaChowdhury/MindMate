@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function LandingPage() {
   return (
     <div className="bg-gray-900 h-screen">
-      <div className="flex mx-auto px-20 h-full justify-center items-center">
+      <div className="flex mx-auto px-40 h-full justify-center items-center">
         <div className="flex w-full">
           <div className="flex flex-col justify-center w-1/2 pr-8">
             <div className="text-4xl md:text-6xl font-bold text-white mb-4">
@@ -27,16 +27,16 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="w-1/2">
-            <div className="relative w-full h-96 md:h-auto">
+            <div className="w-full h-full md:h-auto">
               <div className="md:w-1/2 relative">
-                <Blob className="absolute inset-0 -z-10" />
+                {/* <Blob className="absolute inset-0 -z-10" /> */}
                 <div className="relative h-80 md:h-96 rounded-2xl shadow-2xl overflow-hidden">
-                  <Image
-                    src="/assets/landing.jpg"
-                    alt="Hero Image"
-                    fill
-                    className="object-cover w-full h-full"
-                  />
+                    <Image
+                      src="/assets/landing.jpg"
+                      alt="Hero Image"
+                      fill
+                      className="object-cover"
+                    />
                 </div>
               </div>
             </div>
