@@ -1,18 +1,17 @@
-import { Eczar } from 'next/font/google'
-import { Cormorant_Garamond } from 'next/font/google';
-import './globals.css'
+import { Cormorant_Garamond, Eczar } from "next/font/google";
+import "./globals.css";
 
 const eczar = Eczar({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-eczar',
-})
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-eczar",
+});
 const cormorant_garamond = Cormorant_Garamond({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-cormorant_garamond',
-})
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-cormorant_garamond",
+});
 
 export default function Layout({ children }) {
   return (
@@ -21,5 +20,5 @@ export default function Layout({ children }) {
         {children}
       </body>
     </html>
-  )
+  );
 }

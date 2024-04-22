@@ -16,7 +16,18 @@ export async function POST(request) {
 
     console.log(`Inserted user with ID: ${newUser._id}`);
 
-    return NextResponse.json({ message: `Hello, ${name}!` });
+    const nextResponse = NextResponse.json({
+      message: "Cookie set successfully",
+    });
+
+    // Set the cookie with the received token
+    nextResponse.cookies.set("serverToken", uid, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: "/",
+    });
+
+    return nextResponse;
   } catch (error) {
     console.error("Error inserting user:", error);
     return NextResponse.json(
