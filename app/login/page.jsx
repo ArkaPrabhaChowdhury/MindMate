@@ -23,11 +23,11 @@ export default function Page() {
 
   if (user) {
     // Redirect to a protected page or show logged-in state
-    router.push("/dashboard");
+    router.push("/chat");
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-custom-pink">
       <div className="flex flex-1 flex-col items-center justify-center py-12">
         <div className="mx-auto w-full max-w-sm">
           <div className="mb-6 text-center">
@@ -46,14 +46,12 @@ export default function Page() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="m@example.com"
                 required
+                className=" dark:bg-white"
               />
             </div>
             <div className="grid gap-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <Link href="/forgot-password" className="text-sm underline">
-                  Forgot your password?
-                </Link>
               </div>
               <Input
                 id="password"
@@ -61,9 +59,14 @@ export default function Page() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className=" dark:bg-white"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full outline mt-4"
+              disabled={loading}
+            >
               {loading ? "Logging in..." : "Login"}
             </Button>
             {error && <p className="text-red-500">{error.message}</p>}
