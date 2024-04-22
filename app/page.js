@@ -19,7 +19,7 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
               <button className="font-semibold px-6 py-3 rounded-full bg-custom-pink text-black hover:bg-white transition-colors duration-300">
-                <Link href="/dashboard">Get Started</Link>
+                <Link href="/chat">Get Started</Link>
               </button>
             </div>
           </div>

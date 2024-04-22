@@ -3,7 +3,7 @@ import { auth } from "@/lib/firebase";
 import Link from "next/link";
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-
+import "@/app/globals.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,22 +12,43 @@ import { useRouter } from "next/navigation";
 export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
   const router = useRouter();
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const user = await createUserWithEmailAndPassword(email, password);
-    console.log(user);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log(user);
+      if (user) {
+        // Send user data to the server-side API route
+        const res = await fetch("/api/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            uid: user.uid,
+          }),
+        });
+        const data = await res.json();
+        console.log(data);
+        // Redirect to a protected page or show signed-up state
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  if (user) {
-    // Redirect to a protected page or show signed-up state
-    router.push("/dashboard");
-  }
-
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-custom-pink">
       <div className="flex flex-1 flex-col items-center justify-center py-12">
         <div className="mx-auto w-full max-w-sm">
           <div className="mb-6 text-center">
@@ -38,6 +59,18 @@ export default function Page() {
           </div>
           <form onSubmit={handleSignUp} className="grid gap-4">
             <div className="grid gap-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your Name"
+                required
+                className=" dark:bg-white"
+              />
+            </div>
+            <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -46,6 +79,7 @@ export default function Page() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="m@example.com"
                 required
+                className=" dark:bg-white"
               />
             </div>
             <div className="grid gap-2">
@@ -56,9 +90,14 @@ export default function Page() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className=" dark:bg-white"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full outline mt-4"
+              disabled={loading}
+            >
               {loading ? "Signing up..." : "Sign Up"}
             </Button>
             {error && <p className="text-red-500">{error.message}</p>}
