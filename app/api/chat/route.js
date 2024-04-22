@@ -10,8 +10,8 @@ export async function POST(request) {
     await connectToDB();
 
     // Parse the request body
-    const { uid, chatHistory } = await request.json();
-    console.log("Received request body:", { uid, chatHistory });
+    const { uid, chat_history } = await request.json();
+    console.log("Received request body:", { uid, chat_history });
 
     // Find the user by UID
     const user = await User.findOne({ uid });
@@ -23,7 +23,7 @@ export async function POST(request) {
     }
 
     // Update the user's chat history
-    user.chatHistory = chatHistory; // chatHistory should now be an array of objects
+    user.chat_history = chat_history; // chatHistory should now be an array of objects
 
     // Save the updated user document
     await user.save();
