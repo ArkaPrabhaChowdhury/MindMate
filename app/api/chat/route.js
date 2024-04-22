@@ -1,22 +1,39 @@
-// app/api/chat/route.js
+import User from "@/lib/databases/user";
+import { connectToDB } from "@/lib/mongoose";
 import { NextResponse } from "next/server";
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-export async function GET(request) {
-  return NextResponse.json({ message: "Hello from Next.js API!" });
-}
+// ...
 
-const genAI = new GoogleGenerativeAI("AIzaSyC0vSJY8Vg7Z8CQrEoklC7zNzVd_mOK3-c");
 export async function POST(request) {
-  const { newMessage } = await request.json();
-  console.log(newMessage);
-  // For text-only input, use the gemini-pro model
-  
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  const result = await model.generateContent(newMessage);
-  const response = await result.response;
-  const text = await response.text();
+  try {
+    // Connect to the database
+    await connectToDB();
 
-  // Return the response as JSON
-  return NextResponse.json({ text : text});
+    // Parse the request body
+    const { uid, chatHistory } = await request.json();
+    console.log("Received request body:", { uid, chatHistory });
+
+    // Find the user by UID
+    const user = await User.findOne({ uid });
+    console.log("Found user:", user);
+
+    if (!user) {
+      // Return an error response if user is not found
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Update the user's chat history
+    user.chatHistory = chatHistory; // chatHistory should now be an array of objects
+
+    // Save the updated user document
+    await user.save();
+    console.log("Chat history updated successfully");
+
+    // Return a success response
+    return NextResponse.json({ message: "Chat history updated successfully" }, { status: 200 });
+  } catch (error) {
+    // Handle errors
+    console.error("Error updating chat history:", error);
+    return NextResponse.json({ error: "Failed to update chat history" }, { status: 500 });
+  }
 }
