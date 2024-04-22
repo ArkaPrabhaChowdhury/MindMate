@@ -4,13 +4,16 @@ import { Card } from "@/components/ui/card";
 import { therapistsData } from "@/constants/therapistsData";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { IoClipboardOutline } from "react-icons/io5";
+import { Button } from "@/components/ui/button";
 
 const Page = () => {
   return (
@@ -28,8 +31,12 @@ const Page = () => {
               </Avatar>
               <div className="p-4">
                 <h2 className="text-xl font-bold">{item.name}</h2>
-                <p className="text-gray-500 text-md">Experience: {item.experience}</p>
-                <p className="text-gray-500 text-lg font-bold">Cost: {item.cost}</p>
+                <p className="text-gray-500 text-md">
+                  Experience: {item.experience}
+                </p>
+                <p className="text-gray-200  text-lg font-bold">
+                  Cost: {item.cost}
+                </p>
               </div>
             </div>
           </Card>
@@ -68,16 +75,30 @@ const Modal = ({ children, item }) => {
             <div className="p-4">
               <h2 className="text-2xl font-semibold">{item.name}</h2>
               <p className="text-gray-500 text-md">Age: {item.age}</p>
-              <p className="text-gray-500 text-md">Experience: {item.experience}</p>
-              <p className="text-gray-500 text-lg font-bold">Cost: {item.cost}</p>
+              <p className="text-gray-500 text-md">
+                Experience: {item.experience}
+              </p>
+              <p className="text-gray-200 text-lg font-bold">
+                Cost: {item.cost}
+              </p>
               <div className="flex items-center gap-2"></div>
             </div>
           </div>
           <div className="flex items-center  gap-4">
-            <p className="text-custom-pink text-xl">Email: {item.email}</p>
-            <IoClipboardOutline className="w-6 h-6" onClick={() => copyToClipboard(item.email)}/>
+            <p className="text-custom-pink font-semibold text-xl">Email: {item.email}</p>
+            <IoClipboardOutline
+              className="w-6 h-6 "
+              onClick={() => copyToClipboard(item.email)}
+            />
           </div>
         </Card>
+        <DialogFooter className="sm:justify-end">
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
