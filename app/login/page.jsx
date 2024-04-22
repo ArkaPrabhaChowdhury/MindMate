@@ -17,7 +17,9 @@ export default function Page() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    await signInWithEmailAndPassword(email, password);
+    const userCredential = await signInWithEmailAndPassword(email, password);
+    console.log(userCredential.user);
+    localStorage.setItem("token", JSON.stringify(userCredential.user.uid));
   };
   const router = useRouter();
 

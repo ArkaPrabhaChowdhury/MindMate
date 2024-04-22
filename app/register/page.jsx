@@ -40,6 +40,8 @@ export default function Page() {
         });
         const data = await res.json();
         console.log(data);
+        router.push("/chat");
+        localStorage.setItem("token", JSON.stringify(userCredential.user.uid));
         // Redirect to a protected page or show signed-up state
       }
     } catch (error) {
