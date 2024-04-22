@@ -1,203 +1,64 @@
-import Link from "next/link"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
+"use client";
+import Image from "next/image";
 
-export default function Page() {
+export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-[100dvh]">
-      <header className="px-4 lg:px-6 h-14 flex items-center">
-        <Link className="flex items-center justify-center" href="#">
-          <BotIcon className="h-6 w-6" />
-          <span className="sr-only">AI Therapy</span>
-        </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Chat with AI
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Find a Therapist
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Community
-          </Link>
-        </nav>
-      </header>
-      <main className="flex-1">
-        <section className="w-full pt-12 md:pt-24 lg:pt-32 border-y">
-          <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
-            <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
-              <div>
-                <h1 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
-                  Find Closure and Heal with AI Therapy
-                </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Chat with our AI chatbot to find closure and get support for your mental health challenges. Connect
-                  with real therapists and join our supportive community.
-                </p>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row mt-6">
-                  <Link
-                    className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-                    href="#"
-                  >
-                    Chat with AI
-                  </Link>
-                  <Link
-                    className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-                    href="#"
-                  >
-                    Find a Therapist
-                  </Link>
+    <div className="bg-gray-900 h-screen">
+      <div className="flex mx-auto px-20 h-full justify-center items-center">
+        <div className="flex w-full">
+          <div className="flex flex-col justify-center w-1/2 pr-8">
+            <div className="text-4xl md:text-6xl font-bold text-white mb-4">
+              <h1 className="text-5xl">Find Solace,</h1>
+              <h1 className="text-custom-pink text-6xl">Heal Your Mind</h1>
+            </div>
+            <p className="text-gray-400 font-semibold mb-8 text-xl">
+              Introducing our compassionate mental health chatbot, designed to
+              provide a safe and judgment-free space for you to explore your
+              thoughts and emotions. Share your struggles, and our AI will offer
+              guidance and support on your journey towards healing.
+            </p>
+            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+              <button className="font-semibold px-6 py-3 rounded-full bg-custom-pink text-black hover:bg-purple-600 transition-colors duration-300">
+                Start Chatting
+              </button>
+              <button className="px-6 py-3 rounded-full bg-transparent border border-gray-600 text-gray-400 hover:text-white hover:bg-gray-700 transition-colors duration-300">
+                Learn More
+              </button>
+            </div>
+          </div>
+          <div className="w-1/2">
+            <div className="relative w-full h-96 md:h-auto">
+              <div className="md:w-1/2 relative">
+                <Blob className="absolute inset-0 -z-10" />
+                <div className="relative h-80 md:h-96 rounded-2xl shadow-2xl overflow-hidden">
+                  <Image
+                    src="/assets/landing.jpg"
+                    alt="Hero Image"
+                    fill
+                    className="object-cover w-full h-full"
+                  />
                 </div>
               </div>
             </div>
           </div>
-        </section>
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container space-y-12 px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_550px]">
-              <img
-                alt="AI Chatbot"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
-                height="310"
-                src="/placeholder.svg"
-                width="550"
-              />
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Chat with our AI Chatbot</h2>
-                  <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                    Our AI chatbot is here to listen, provide support, and help you find closure. Share your thoughts
-                    and feelings, and the chatbot will offer personalized guidance and coping strategies.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link
-                    className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-                    href="#"
-                  >
-                    Start Chatting
-                  </Link>
-                  <Link
-                    className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-                    href="#"
-                  >
-                    Learn More
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
-          <div className="container space-y-12 px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Connect with Therapists</h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  In addition to our AI chatbot, we also offer the ability to connect with licensed therapists for
-                  personalized counseling and support.
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
-              <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Individual Therapy</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Work one-on-one with a licensed therapist to address your specific mental health needs.
-                </p>
-                <Link className="text-sm font-medium text-gray-900 hover:underline dark:text-gray-50" href="#">
-                  Find a Therapist
-                </Link>
-              </div>
-              <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Group Therapy</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Join a supportive group of individuals working through similar challenges.
-                </p>
-                <Link className="text-sm font-medium text-gray-900 hover:underline dark:text-gray-50" href="#">
-                  Find a Group
-                </Link>
-              </div>
-              <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Community Support</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Connect with others, share your story, and find inspiration in our online community.
-                </p>
-                <Link className="text-sm font-medium text-gray-900 hover:underline dark:text-gray-50" href="#">
-                  Join the Community
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
-          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
-            <div className="space-y-3">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Share Your Story</h2>
-              <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                Join our community and share your experiences, thoughts, and insights about mental health. Your story
-                could help others find the support they need.
-              </p>
-            </div>
-            <div className="mx-auto w-full max-w-sm space-y-2">
-              <form className="flex flex-col space-y-2">
-                <div className="space-y-1">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" placeholder="John Doe" required type="text" />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" placeholder="example@email.com" required type="email" />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea id="message" placeholder="Share your story" required />
-                </div>
-                <Button className="w-full" type="submit">
-                  Submit
-                </Button>
-              </form>
-            </div>
-          </div>
-        </section>
-      </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 AI Therapy. All rights reserved.</p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
-            Privacy Policy
-          </Link>
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
-            Terms of Service
-          </Link>
-        </nav>
-      </footer>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-function BotIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 8V4H8" />
-      <rect width="16" height="12" x="4" y="8" rx="2" />
-      <path d="M2 14h2" />
-      <path d="M20 14h2" />
-      <path d="M15 13v2" />
-      <path d="M9 13v2" />
-    </svg>
-  )
-}
+const Blob = ({ className }) => (
+  <svg
+    className={`${className} w-full h-full`}
+    viewBox="0 0 578 440"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M239.184 439.443c-55.13-5.419-110.241-21.365-151.074-58.767C42.307 338.722-7.478 282.729.938 221.217c8.433-61.644 78.896-91.048 126.871-130.712 34.337-28.388 70.198-51.348 112.004-66.78C282.34 8.024 325.382-3.369 370.518.904c54.019 5.115 112.774 10.886 150.881 49.482 39.916 40.427 49.421 100.753 53.385 157.402 4.13 59.015 11.255 128.44-30.444 170.44-41.383 41.683-111.6 19.106-169.213 30.663-46.68 9.364-88.56 35.21-135.943 30.551z"
+      fill="currentColor"
+    />
+  </svg>
+);
