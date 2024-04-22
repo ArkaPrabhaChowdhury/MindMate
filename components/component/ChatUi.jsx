@@ -91,6 +91,7 @@ export function ChatUi() {
             <span className="sr-only">Toggle menu</span>
           </Button>
         </div>
+
         <div className="flex-1 overflow-y-auto p-6">
           <div className="mx-auto max-w-3xl space-y-8">
             <div className="flex items-start gap-4">
@@ -111,6 +112,7 @@ export function ChatUi() {
                 </p>
               </div>
             </div>
+            
             <div className="flex items-start gap-4 flex-row-reverse">
               <img
                 alt="Avatar"
