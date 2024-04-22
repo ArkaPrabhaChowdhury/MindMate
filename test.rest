@@ -12,3 +12,7 @@ Content-Type: application/json
     {"content": "How are you?", "response": "I'm doing well, thanks for asking!"}
   ]
 }
+
+###
+
+GET http://localhost:3000/api/community
