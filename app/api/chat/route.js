@@ -14,8 +14,7 @@ export async function POST(request) {
     console.log("Received request body:", { uid, chat_history });
 
     // Find the user by UID
-    console.log(uid)
-    const user = await User.findOne({ uid :uid });
+    const user = await User.findOne({ uid });
     console.log("Found user:", user);
 
     if (!user) {
