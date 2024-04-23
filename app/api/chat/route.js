@@ -2,6 +2,8 @@ import User from "@/lib/databases/user";
 import { connectToDB } from "@/lib/mongoose";
 import { NextResponse } from "next/server";
 
+// ...
+
 export async function POST(request) {
   try {
     // Connect to the database
@@ -21,8 +23,8 @@ export async function POST(request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Add the new chat history to the existing chat history array
-    user.chat_history = [...(user.chat_history || []), ...chat_history];
+    // Update the user's chat history
+    user.chat_history = chat_history; // chatHistory should now be an array of objects
 
     // Save the updated user document
     await user.save();
