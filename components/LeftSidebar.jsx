@@ -45,46 +45,44 @@ export default function LeftSidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="sm:block hidden lg:block">
-      <div className="bg-gray-800 text-white w-64 h-screen flex flex-col justify-between">
-        <div className="flex flex-col items-center pt-3">
-          <div className="p-4">
-            <img
-              src="/assets/mind-logo.png"
-              alt="Logo"
-              className="w-16 h-16 rounded-full"
-            />
-          </div>
-          <p className="text-xl font-semibold mb-4">MindMate</p>
+    <div className="bg-gray-800 text-white w-64 h-screen flex flex-col justify-between">
+      <div className="flex flex-col items-center pt-3">
+        <div className="p-4">
+          <img
+            src="/assets/mind-logo.png"
+            alt="Logo"
+            className="w-16 h-16 rounded-full"
+          />
         </div>
-        <section className="p-2 -mt-12">
-          {sidebarLinks.map((link) => {
-            const isActive =
-              (pathname.includes(link.path) && link.path.length > 1) ||
-              pathname === link.path;
+        <p className="text-xl font-semibold mb-4">MindMate</p>
+      </div>
+      <section className="p-3 -mt-12">
+        {sidebarLinks.map((link) => {
+          const isActive =
+            (pathname.includes(link.path) && link.path.length > 1) ||
+            pathname === link.path;
 
-            return (
-              <Link
-                href={link.path}
-                key={link.title}
-                className={`flex items-center gap-2 p-1 rounded-lg ${
-                  isActive ? "bg-custom-pink text-black" : ""
-                } transition-colors duration-300 hover:bg-gray-700 hover:text-white mt-5`}
-                shallow
-              >
-                <div className="w-16 h-16 flex justify-center items-center">
-                  {link.icon}
-                </div>
-                <p className="flex font-semibold text-lg justify-center items-center">
-                  {link.title}
-                </p>
-              </Link>
-            );
-          })}
-        </section>
-        <div className="pb-5 flex justify-center">
-          <LogoutButton />
-        </div>
+          return (
+            <Link
+              href={link.path}
+              key={link.title}
+              className={`flex items-center gap-2 p-2 rounded-lg ${
+                isActive ? "bg-custom-pink text-black" : ""
+              } transition-colors duration-300 hover:bg-gray-700 hover:text-white mt-5`}
+              shallow
+            >
+              <div className="w-12 h-12 flex justify-center items-center">
+                {link.icon}
+              </div>
+              <p className="flex font-semibold text-lg justify-center items-center hidden md:block">
+                {link.title}
+              </p>
+            </Link>
+          );
+        })}
+      </section>
+      <div className="pb-5 flex justify-center">
+        <LogoutButton />
       </div>
     </div>
   );
