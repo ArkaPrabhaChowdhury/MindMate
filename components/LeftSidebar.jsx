@@ -7,8 +7,10 @@ import { usePathname, useRouter } from "next/navigation";
 
 const LogoutButton = () => {
   const router = useRouter();
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = async () => {
+    await localStorage.removeItem("token");
+    await localStorage.removeItem("userId");
+
     signOut(auth).then(() => {
       router.push("/login");
     });

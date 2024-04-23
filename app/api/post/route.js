@@ -1,16 +1,18 @@
 import Post from "@/lib/databases/post";
+import User from "@/lib/databases/user";
 import { connectToDB } from "@/lib/mongoose";
+import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  const { content, uid } = await request.json();
+  const { content, userId } = await request.json();
 
   try {
     await connectToDB();
 
     const newPost = await Post.create({
       content,
-      uid: uid,
+      uid: userId,
     });
 
     console.log("Created Post with ID: ", newPost._id);
@@ -30,11 +32,22 @@ export async function GET(request) {
 
     const posts = await Post.find({ parentId: null });
 
-    return NextResponse.json(posts);
+    const postWithAuthorName = [];
+
+    for (const post of posts) {
+      const user = await User.findById(post.uid);
+      console.log("User:", user);
+      postWithAuthorName.push({
+        ...post.toObject(),
+        authorName: user.name,
+      });
+    }
+
+    return NextResponse.json(postWithAuthorName);
   } catch (error) {
     console.error("Error fetching posts:", error);
     return NextResponse.json(
-      { error: "Failed to fetch posts" },
+      { error: "Failed to fetch .posts" },
       { message: error }
     );
   }

@@ -3,6 +3,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { Textarea } from "@/components/ui/textarea";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaCommentAlt, FaPencilAlt } from "react-icons/fa";
 
@@ -23,7 +24,7 @@ const ThreadsPage = () => {
   const fetchThreads = async () => {
     try {
       setIsLoading(true); // Set loading state to true before fetching data
-      const response = await fetch("/api/community");
+      const response = await fetch("/api/post");
       const data = await response.json();
       setThreads(data);
     } catch (error) {
@@ -46,7 +47,6 @@ const ThreadsPage = () => {
         },
       });
       const data = await res.json();
-      console.log("User data fetched:", data.name);
       setName(data.name);
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -55,19 +55,19 @@ const ThreadsPage = () => {
 
   const addPost = async () => {
     try {
-      const response = await fetch("/api/community", {
+      const userId = localStorage.getItem("userId");
+      const response = await fetch("/api/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ content, uid }),
+        body: JSON.stringify({ userId, content }),
       });
 
       const data = await response.json();
       setShowModal(false);
       setContent("");
       fetchThreads();
-      console.log(data);
     } catch (error) {
       console.error("Error adding post:", error);
     }
@@ -91,30 +91,36 @@ const ThreadsPage = () => {
           </div>
           <div className="max-h-[500px] overflow-y-auto">
             {threads.map((thread) => (
-              <div
+              <Link
                 key={thread._id}
-                className="bg-custom-pink shadow-md rounded-lg p-5 mb-6"
-                onClick={() => toggleComments(thread._id)}
+                href={`/community/${thread._id}`}
               >
-                <h3 className="text-sm font-semibold mb-3">{name}</h3>
-                <h2 className="text-xl font-semibold mb-3">{thread.content}</h2>
-                <div className="flex items-center text-gray-600">
-                  <FaCommentAlt className="mr-2 mt-1" />
-                  <span>{thread.comments.length} comments</span>
-                </div>
-                {expandedThread === thread._id && (
-                  <div className="mt-4">
-                    {thread.comments.map((comment) => (
-                      <div
-                        key={comment}
-                        className=" p-2 rounded mb-2 text-black"
-                      >
-                        {comment}
-                      </div>
-                    ))}
+                <div
+                  key={thread._id}
+                  className="bg-custom-pink shadow-md rounded-lg p-5 mb-6"
+                >
+                  <h3 className="text-sm font-semibold mb-3">{name}</h3>
+                  <h2 className="text-xl font-semibold mb-3">
+                    {thread.content}
+                  </h2>
+                  <div className="flex items-center text-gray-600">
+                    <FaCommentAlt className="mr-2 mt-1" />
+                    <span>{thread.comments.length} comments</span>
                   </div>
-                )}
-              </div>
+                  {expandedThread === thread._id && (
+                    <div className="mt-4">
+                      {thread.comments.map((comment) => (
+                        <div
+                          key={comment}
+                          className=" p-2 rounded mb-2 text-black"
+                        >
+                          {comment}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </Link>
             ))}
           </div>
 

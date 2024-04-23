@@ -38,9 +38,23 @@ export default function Page() {
   const handleLogin = async (e) => {
     e.preventDefault();
     const userCredential = await signInWithEmailAndPassword(email, password);
-    console.log(userCredential.user);
     localStorage.setItem("token", JSON.stringify(userCredential.user.uid));
     setTokenCookie(userCredential.user.uid);
+    try{
+      const response = await fetch("/api/get-id", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      localStorage.setItem("userId", data);
+      console.log(localStorage.getItem("userId"));
+
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
   };
   const router = useRouter();
 

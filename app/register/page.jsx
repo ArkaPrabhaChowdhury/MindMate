@@ -39,7 +39,8 @@ export default function Page() {
           }),
         });
         const data = await res.json();
-        console.log(data);
+        localStorage.setItem("userId", data._id);
+        console.log(localStorage.getItem("userId"));
         localStorage.setItem("token", JSON.stringify(userCredential.user.uid));
         router.push("/chat");
         // Redirect to a protected page or show signed-up state
