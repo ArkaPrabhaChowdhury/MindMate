@@ -2,11 +2,8 @@ POST http://localhost:3000/api/post
 Content-Type: application/json
 
 {
-  "uid": "W4ElMP4RhMfug4uzSgSRmbAuIv92",
-  "chat_history": [
-    {"content": "Hello", "response": "Hi there!"},
-    {"content": "How are you?", "response": "I'm doing well, thanks for asking!"}
-  ]
+  "userId": "66269591b046a8be62ac7bdd",
+  "content": "This is a test post"
 }
 
 ###
@@ -25,4 +22,4 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/post/6626bb047bc53ad33abaf15a
+GET http://localhost:3000/api/post/662742b130505d49be4eb75a
