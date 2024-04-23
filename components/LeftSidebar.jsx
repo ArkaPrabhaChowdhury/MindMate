@@ -11,9 +11,14 @@ const LogoutButton = () => {
     await localStorage.removeItem("token");
     await localStorage.removeItem("userId");
 
+    clearCookies();
     signOut(auth).then(() => {
       router.push("/login");
     });
+  };
+
+  const clearCookies = async () => {
+    await fetch("/api/deleteCookie");
   };
   return (
     <button
