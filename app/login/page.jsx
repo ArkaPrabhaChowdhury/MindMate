@@ -15,11 +15,32 @@ export default function Page() {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
+  async function setTokenCookie(token) {
+    try {
+      const response = await fetch("/api/setCookie", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      if (response.ok) {
+        console.log("Cookie set successfully");
+      } else {
+        console.error("Failed to set cookie");
+      }
+    } catch (error) {
+      console.error("Error setting cookie:", error);
+    }
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const userCredential = await signInWithEmailAndPassword(email, password);
     console.log(userCredential.user);
     localStorage.setItem("token", JSON.stringify(userCredential.user.uid));
+    setTokenCookie(userCredential.user.uid);
   };
   const router = useRouter();
 
