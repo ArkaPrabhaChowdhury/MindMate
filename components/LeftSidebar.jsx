@@ -56,7 +56,7 @@ export default function LeftSidebar() {
         </div>
         <p className="text-xl font-semibold mb-4">MindMate</p>
       </div>
-      <section className="p-2 -mt-12">
+      <section className="p-3 -mt-12">
         {sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.path) && link.path.length > 1) ||
@@ -66,12 +66,12 @@ export default function LeftSidebar() {
             <Link
               href={link.path}
               key={link.title}
-              className={`flex items-center gap-2 p-1 rounded-lg ${
+              className={`flex items-center gap-2 p-2 rounded-lg ${
                 isActive ? "bg-custom-pink text-black" : ""
               } transition-colors duration-300 hover:bg-gray-700 hover:text-white mt-5`}
               shallow
             >
-              <div className="w-16 h-16 flex justify-center items-center">
+              <div className="w-12 h-12 flex justify-center items-center">
                 {link.icon}
               </div>
               <p className="flex font-semibold text-lg justify-center items-center hidden md:block">
