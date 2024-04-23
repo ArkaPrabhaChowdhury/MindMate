@@ -1,7 +1,7 @@
 "use client";
 import { auth } from "@/lib/firebase";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 import { Button } from "@/components/ui/button";
@@ -35,26 +35,33 @@ export default function Page() {
     }
   }
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const userCredential = await signInWithEmailAndPassword(email, password);
-    localStorage.setItem("token", JSON.stringify(userCredential.user.uid));
-    setTokenCookie(userCredential.user.uid);
-    try{
+  const getUserId = async () => {
+    try {
       const response = await fetch("/api/get-id", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
-
+  
       const data = await response.json();
-      localStorage.setItem("userId", data);
+      console.log(data);
+      await localStorage.setItem("userId", data);
       console.log(localStorage.getItem("userId"));
-
     } catch (error) {
       console.error("Error fetching user:", error);
     }
+  };
+  
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const userCredential = await signInWithEmailAndPassword(email, password);
+    await localStorage.setItem("token", JSON.stringify(userCredential.user.uid));
+    await setTokenCookie(userCredential.user.uid);
+    console.log("Token:", userCredential.user.uid);
+  
+    // Call getUserId function after setting the token cookie
+    await getUserId();
   };
   const router = useRouter();
 

@@ -15,11 +15,11 @@ const Page = () => {
 
   const fetchThread = async () => {
     try {
-      const res = await fetch(`/api/post/${id}`,{
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json",
-          },
+      const res = await fetch(`/api/post/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       const data = await res.json();
@@ -31,9 +31,22 @@ const Page = () => {
   };
 
   return (
-    <div>
-      <Card className="w-full h-screen max-h-full">
-        <p>{thread.content}</p>
+    <div className="bg-custom-pink">
+      <Card className="bg-custom-pink w-full h-screen max-h-full">
+        <div>
+          <h1 className="text-4xl font-bold">{thread.title}</h1>
+          <p>{thread.content}</p>
+        </div>
+
+        <div>
+          {thread.comments &&
+            thread.comments.map((comment) => (
+              <div key={comment.id}>
+                <h1>{comment.author}</h1>
+                <p>{comment.content}</p>
+              </div>
+            ))}
+        </div>
       </Card>
     </div>
   );
