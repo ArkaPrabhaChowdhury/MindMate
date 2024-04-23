@@ -23,10 +23,7 @@ const Page = () => {
           <Card className="p-4 bg-white shadow-md rounded-xl mx-10 my-4">
             <div className="flex flex-col items-center gap-4 lg:flex-row">
               <Avatar className="w-24 h-24">
-                <AvatarImage
-                  src="/assets/default.png"
-                  alt="@shadcn"
-                />
+                <AvatarImage src="/assets/default.png" alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className="p-4">
@@ -69,7 +66,7 @@ const Modal = ({ children, item }) => {
         <Card className="p-4 bg-white rounded-xl mx-10 border-none">
           <div className="flex flex-col items-center gap-4 lg:flex-row">
             <Avatar className="w-24 h-24">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarImage src="/assets/default.png" alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="p-4">
@@ -85,7 +82,9 @@ const Modal = ({ children, item }) => {
             </div>
           </div>
           <div className="flex items-center  gap-4">
-            <p className="text-custom-pink font-semibold text-xl">Email: {item.email}</p>
+            <p className="text-custom-pink font-semibold text-xl">
+              Email: <a href={`mailto:${item.email}`}>{item.email}</a>
+            </p>
             <IoClipboardOutline
               className="w-6 h-6 "
               onClick={() => copyToClipboard(item.email)}

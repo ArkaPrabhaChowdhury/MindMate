@@ -23,7 +23,7 @@ export default function LandingPage() {
               </button>
             </div>
           </div>
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/3">
             <div className="relative h-80 md:h-[26rem] rounded-2xl shadow-2xl overflow-hidden">
               <Image src="/assets/landing.jpg" alt="Hero Image" fill />
             </div>
