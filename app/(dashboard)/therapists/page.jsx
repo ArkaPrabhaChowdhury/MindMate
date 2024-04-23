@@ -24,7 +24,7 @@ const Page = () => {
             <div className="flex flex-col items-center gap-4 lg:flex-row">
               <Avatar className="w-24 h-24">
                 <AvatarImage
-                  src="https://github.com/shadcn.png"
+                  src="/assets/default.png"
                   alt="@shadcn"
                 />
                 <AvatarFallback>CN</AvatarFallback>
