@@ -5,19 +5,24 @@ import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  const { content, userId } = await request.json();
+  const { content, userId, parentId } = await request.json();
 
   try {
     await connectToDB();
 
+    console.log("ID:", userId);
+
+    const user = await User.findById(userId.toString());
+
+
     const newPost = await Post.create({
       content,
       uid: userId,
+      authorName: user.name,
+      parentId: parentId || null,
     });
 
-    console.log("Created Post with ID: ", newPost._id);
-
-    return NextResponse.json({ message: "Post created successfully!" });
+    return NextResponse.json({ message: "Post created successfully!", postId: newPost._id});
   } catch (error) {
     console.error("Error creating post:", error);
     return NextResponse.json(
@@ -35,7 +40,7 @@ export async function GET(request) {
     const postWithAuthorName = [];
 
     for (const post of posts) {
-      const user = await User.findById(post.uid);
+      const user = await User.findById(post.uid.toString());
       console.log("User:", user);
       postWithAuthorName.push({
         ...post.toObject(),
