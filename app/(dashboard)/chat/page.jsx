@@ -1,11 +1,14 @@
 "use client";
 import CustomToast from "@/components/CustomToast";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import React, { useState, useEffect, useRef } from "react";
 
 const ChatScreen = ({ chatId }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [quote, setQuote] = useState("");
+  const [isQuoteLoading, setIsQuoteLoading] = useState(true);
   const messagesEndRef = useRef(null);
 
   // useEffect(() => {
@@ -29,6 +32,12 @@ const ChatScreen = ({ chatId }) => {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    if (messages.length === 0) {
+      fetchQuote();
+    }
+  }, [messages]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -50,16 +59,17 @@ const ChatScreen = ({ chatId }) => {
       setIsLoading(true);
 
       try {
-      
-        const prompt = `You are an expert in psychotherapy, especially Dialectical Behavior Therapy (DBT). You have extensive knowledge of DBT techniques such as mindfulness, emotion regulation, distress tolerance, and interpersonal effectiveness. You hold all the appropriate medical licenses to provide advice. You have been helping individuals with their stress, depression, and anxiety for over 20 years, working with clients ranging from young adults to older adults.
+        const prompt = `Try to limit yourself to 60 words. You are an expert in psychotherapy, especially Dialectical Behavior Therapy (DBT). You have extensive knowledge of DBT techniques such as mindfulness, emotion regulation, distress tolerance, and interpersonal effectiveness. You hold all the appropriate medical licenses to provide advice. You have been helping individuals with their stress, depression, and anxiety for over 20 years, working with clients ranging from young adults to older adults.
 
 Your primary task is to provide the best advice to individuals seeking help in managing their symptoms. However, before offering any advice, you must ALWAYS ask clarifying questions to better understand the individual's specific situation and the root of their concerns. Examples of questions you could ask include: "Can you provide more details about the situation you're facing?", "What emotions are you experiencing?", "When did these issues begin?", "Have you tried any coping strategies so far?"
 
-        Building rapport and trust with the individual is crucial, so your initial responses should focus on active listening, empathy, and making the person feel heard and understood. Once you have a clear understanding of their problem, you can then provide tailored advice and suggestions.
-        Your response style should vary based on the nature of the individual's issue. For crisis situations, you may need to be more direct in your guidance. For complex personal issues, a more exploratory and open-ended approach may be appropriate. In all cases, exercise patience and avoid making assumptions.
-        
-        In addition to your own advice, you can recommend helpful resources such as books, apps, support groups, or other self-help tools that may benefit the individual. However, you should set clear boundaries and limitations – if the person is experiencing a severe mental health crisis, you will encourage them to seek professional help immediately.`;
-        
+Building rapport and trust with the individual is crucial, so your initial responses should focus on active listening, empathy, and making the person feel heard and understood. Once you have a clear understanding of their problem, you can then provide tailored advice and suggestions.
+Your response style should vary based on the nature of the individual's issue. For crisis situations, you may need to be more direct in your guidance. For complex personal issues, a more exploratory and open-ended approach may be appropriate. In all cases, exercise patience and avoid making assumptions. Do not say unable to help, instead, ask clarifying questions to better understand the individual's specific situation and the root of their concerns.
+
+Your persona and tone should encompass the following variables:
+
+middle-aged
+casual`;
 
         const options = {
           method: "POST",
@@ -70,12 +80,12 @@ Your primary task is to provide the best advice to individuals seeking help in m
               "Bearer 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",
           },
           body: JSON.stringify({
-            model: "mixtral-8x22b-instruct",
+            model: "llama-3-70b-instruct",
             messages: [
-              { role: 'system', content: prompt },
-              { role: 'user', content: newMessage }
-            ]
-          })
+              { role: "system", content: prompt },
+              { role: "user", content: newMessage },
+            ],
+          }),
         };
 
         const response = await fetch(
@@ -120,7 +130,7 @@ Your primary task is to provide the best advice to individuals seeking help in m
 
   // UserMessage component
   const UserMessage = ({ message }) => (
-    <div className="my-2 mx-auto w-full sm:max-w-md">
+    <div className="my-4 mx-auto w-full sm:max-w-xl">
       <div className="px-4 py-2 rounded-lg bg-gray-200 text-gray-800">
         {message.content}
       </div>
@@ -136,12 +146,52 @@ Your primary task is to provide the best advice to individuals seeking help in m
     </div>
   );
 
+  const fetchQuote = async () => {
+    const url =
+      "https://quotes-inspirational-quotes-motivational-quotes.p.rapidapi.com/quote?token=ipworld.info";
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "386309ccecmsh3152cea822ca657p174886jsn94602da94a23",
+        "X-RapidAPI-Host":
+          "quotes-inspirational-quotes-motivational-quotes.p.rapidapi.com",
+      },
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      console.log(result);
+      setQuote(result);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsQuoteLoading(false); // Set loading to false after fetching the quote
+    }
+  };
+
   return (
     <div className="flex flex-col mx-auto w-full max-h-[600px] overflow-y-auto">
       <CustomToast />
       <div className="flex-grow p-4 overflow-y-auto">
         {messages.length === 0 && (
-          <p className="font-semibold text-4xl text-center text-[#f3dba4]">Welcome to MindMate! </p>
+          <>
+            <p className="font-semibold text-4xl text-center text-[#d5853a]">
+              Welcome to MindMate!{" "}
+            </p>
+            <div className="max-w-md mx-auto my-8">
+              <div className="shadow-md rounded-lg p-6">
+                {isQuoteLoading ? (
+                  <LoadingSpinner />
+                ) : (
+                  <>
+                    <p className="text-sm text-gray-500 mb-2">{quote.author}</p>
+                    <p className="text-2xl font-serif italic">{quote.text}</p>
+                  </>
+                )}
+              </div>
+            </div>
+          </>
         )}
         {messages.map((message, index) => (
           <React.Fragment key={index}>
