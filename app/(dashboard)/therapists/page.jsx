@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 const Page = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-4">
       {therapistsData.map((item, index) => (
         <Modal key={index} item={item}>
           <Card className="p-4 bg-white shadow-md rounded-xl mx-10 my-4">
