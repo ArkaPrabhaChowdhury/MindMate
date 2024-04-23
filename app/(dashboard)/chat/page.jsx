@@ -1,7 +1,5 @@
 "use client";
 import CustomToast from "@/components/CustomToast";
-import { auth } from "@/lib/firebase";
-import { onAuthStateChanged } from "firebase/auth";
 import React, { useState, useEffect, useRef } from "react";
 
 const ChatScreen = ({ chatId }) => {
@@ -10,22 +8,22 @@ const ChatScreen = ({ chatId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  useEffect(() => {
-    const fetchChatHistory = async () => {
-      if (chatId) {
-        try {
-          const response = await fetch("api/chat", { chat_id: chatId });
-          setMessages(response.data);
-        } catch (error) {
-          console.error(
-            `Error fetching chat history for chatId ${chatId}:`,
-            error
-          );
-        }
-      }
-    };
-    fetchChatHistory();
-  }, [chatId]);
+  // useEffect(() => {
+  //   const fetchChatHistory = async () => {
+  //     if (chatId) {
+  //       try {
+  //         const response = await fetch("api/chat", { chat_id: chatId });
+  //         setMessages(response.data);
+  //       } catch (error) {
+  //         console.error(
+  //           `Error fetching chat history for chatId ${chatId}:`,
+  //           error
+  //         );
+  //       }
+  //     }
+  //   };
+  //   fetchChatHistory();
+  // }, [chatId]);
 
   useEffect(() => {
     scrollToBottom();
@@ -52,15 +50,20 @@ const ChatScreen = ({ chatId }) => {
       setIsLoading(true);
 
       try {
-        const prompt = `You are an expert in psychotherapy, especially Dialectical Behavior Therapy (DBT). You have extensive knowledge of DBT techniques such as mindfulness, emotion regulation, distress tolerance, and interpersonal effectiveness. You hold all the appropriate medical licenses to provide advice. You have been helping individuals with their stress, depression, and anxiety for over 20 years, working with clients ranging from young adults to older adults.
+        const prompt = `Try your best to finish the response within 60 words.You are an expert in psychotherapy, especially Dialectical Behavior Therapy (DBT). You have extensive knowledge of DBT techniques such as mindfulness, emotion regulation, distress tolerance, and interpersonal effectiveness. You hold all the appropriate medical licenses to provide advice. You have been helping individuals with their stress, depression, and anxiety for over 20 years, working with clients ranging from young adults to older adults.
 
-        Your primary task is to provide the best advice to individuals seeking help in managing their symptoms. However, before offering any advice, you must ALWAYS ask clarifying questions to better understand the individual's specific situation and the root of their concerns. Examples of questions you could ask include: "Can you provide more details about the situation you're facing?", "What emotions are you experiencing?", "When did these issues begin?", "Have you tried any coping strategies so far?"
-        use these only when requred and try to keep the chats short consice and short .
+Your primary task is to provide the best advice to individuals seeking help in managing their symptoms. However, before offering any advice, you must ALWAYS ask clarifying questions to better understand the individual's specific situation and the root of their concerns. Examples of questions you could ask include: "Can you provide more details about the situation you're facing?", "What emotions are you experiencing?", "When did these issues begin?", "Have you tried any coping strategies so far?"
 
-        Building rapport and trust with the individual is crucial, so your initial responses should focus on active listening, empathy, and making the person feel heard and understood. Once you have a clear understanding of their problem, you can then provide tailored advice and suggestions.
-        Your response style should vary based on the nature of the individual's issue. For crisis situations, you may need to be more direct in your guidance. For complex personal issues, a more exploratory and open-ended approach may be appropriate. In all cases, exercise patience and avoid making assumptions.
-        
-        In addition to your own advice, you can recommend helpful resources such as books, apps, support groups, or other self-help tools that may benefit the individual. However, you should set clear boundaries and limitations – if the person is experiencing a severe mental health crisis, you will encourage them to seek professional help immediately.`;
+Building rapport and trust with the individual is crucial, so your initial responses should focus on active listening, empathy, and making the person feel heard and understood. Once you have a clear understanding of their problem, you can then provide tailored advice and suggestions.
+Your response style should vary based on the nature of the individual's issue. For crisis situations, you may need to be more direct in your guidance. For complex personal issues, a more exploratory and open-ended approach may be appropriate. In all cases, exercise patience and avoid making assumptions.
+
+In addition to your own advice, you can recommend helpful resources such as books, apps, support groups, or other self-help tools that may benefit the individual. However, you should set clear boundaries and limitations – if the person is experiencing a severe mental health crisis, you will encourage them to seek professional help immediately.
+
+Your persona and tone should encompass the following variables:
+
+middle-aged
+casual`;
+
 
         const options = {
           method: "POST",
@@ -71,8 +74,9 @@ const ChatScreen = ({ chatId }) => {
               "Bearer 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",
           },
           body: JSON.stringify({
-            model: "mistral-7b-instruct",
+            model: "mixtral-8x22b-instruct",
             messages: [
+
               { role: "system", content: prompt },
               { role: "user", content: newMessage },
             ],
@@ -86,23 +90,29 @@ const ChatScreen = ({ chatId }) => {
         const data = await response.json();
 
         if (response.ok) {
-          chatObject.response = data.choices[0].message.content;
+          const newResponse = data.choices[0].message.content;
+
+          // Create a new chat object with the current message and response
+          const chatObject = {
+            content: newMessage,
+            response: newResponse,
+          };
+
+          // Update the messages state with the new chat object
           setMessages((prevMessages) => [
             ...prevMessages,
-            { response: data.choices[0].message.content, sender: "bot" },
+            { response: newResponse, sender: "bot" },
             chatObject,
           ]);
 
           // Send the updated chat history to the server
-          console.log(token);
-          const uid = token; // Replace with the actual user ID
           const chat_history = [...messages, chatObject];
           await fetch("/api/chat", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ uid, chat_history }),
+            body: JSON.stringify({ chat_history }),
           });
         }
       } catch (error) {
@@ -112,52 +122,6 @@ const ChatScreen = ({ chatId }) => {
       }
     }
   };
-
-  //   const sendData = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     // const res = await fetch("/api/chat", {
-  //     //   method: "POST",
-  //     //   headers: {
-  //     //     "Content-Type": "application/json",
-  //     //   },
-  //     //   body: JSON.stringify({ newMessage }),
-  //     // });
-
-  //     // if (!res.ok) {
-  //     //   throw new Error("Network response was not ok");
-  //     // }
-
-  //     // const data = await res.json();
-  //     // console.log(data);
-  //     // setMessages(data.text);
-  //     // const options = {
-  //     //   method: 'POST',
-  //     //   headers: {
-  //     //     accept: 'application/json',
-  //     //     'content-type': 'application/json',
-  //     //     authorization: 'Bearer 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'
-  //     //   },
-  //     //   body: JSON.stringify({
-  //     //     model: 'mistral-7b-instruct',
-  //     //     messages: [
-  //     //       {role: 'system', content: 'you are a usefull assistant do what you can to assist the users  query'},
-  //     //       {role: 'user', content: newMessage}
-  //     //     ]
-  //     //   })
-  //     // };
-
-  //     // fetch('https://api.perplexity.ai/chat/completions', options)
-  //     //   .then(response => response.json())
-  //     //   .then(response => console.log(response))
-  //     //   .catch(err => console.error(err));
-
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     // Handle the error appropriately (e.g., display an error message to the user)
-  //   }
-  // };
 
   // UserMessage component
   const UserMessage = ({ message }) => (

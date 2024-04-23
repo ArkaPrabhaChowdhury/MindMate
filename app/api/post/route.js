@@ -1,16 +1,18 @@
 import Post from "@/lib/databases/post";
 import { connectToDB } from "@/lib/mongoose";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
   const { content, uid } = await request.json();
-
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
   try {
     await connectToDB();
 
     const newPost = await Post.create({
       content,
-      uid: uid,
+      uid: token,
     });
 
     console.log("Created Post with ID: ", newPost._id);
