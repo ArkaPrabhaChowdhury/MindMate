@@ -5,22 +5,22 @@ import { FaRegUser } from "react-icons/fa";
 
 export const sidebarLinks = [
   {
-    icon: <RiChat1Line className="h-full w-full" size={8} />,
+    icon: <RiChat1Line size={40} />,
     title: "Chat",
     path: "/chat",
   },
   {
-    icon: <MdOutlineContacts className="h-full w-full" size={8} />,
+    icon: <MdOutlineContacts size={40} />,
     title: "Therapists",
     path: "/therapists",
   },
   {
-    icon: <BsPeople className="h-full w-full" size={8} />,
+    icon: <BsPeople size={40} />,
     title: "Community",
     path: "/community",
   },
   {
-    icon: <FaRegUser className="h-full w-full" size={6} />,
+    icon: <FaRegUser size={40} />,
     title: "Profile",
     path: "/profile",
   },

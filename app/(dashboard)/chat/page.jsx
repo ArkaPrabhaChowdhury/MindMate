@@ -10,33 +10,6 @@ const ChatScreen = ({ chatId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      console.log("User:", user);
-    }
-    setTokenCookie(user.uid);
-  });
-
-  async function setTokenCookie(token) {
-    try {
-      const response = await fetch("/api/setCookie", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token }),
-      });
-
-      if (response.ok) {
-        console.log("Cookie set successfully");
-      } else {
-        console.error("Failed to set cookie");
-      }
-    } catch (error) {
-      console.error("Error setting cookie:", error);
-    }
-  }
-
   useEffect(() => {
     const fetchChatHistory = async () => {
       if (chatId) {
@@ -65,12 +38,19 @@ const ChatScreen = ({ chatId }) => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (newMessage.trim()) {
+      const chatObject = {
+        content: newMessage,
+        response: "",
+      };
+
       setMessages((prevMessages) => [
         ...prevMessages,
         { content: newMessage, sender: "user" },
+        chatObject,
       ]);
       setNewMessage("");
       setIsLoading(true);
+
       try {
         const options = {
           method: "POST",
@@ -100,10 +80,24 @@ const ChatScreen = ({ chatId }) => {
         const data = await response.json();
 
         if (response.ok) {
+          chatObject.response = data.choices[0].message.content;
           setMessages((prevMessages) => [
             ...prevMessages,
             { response: data.choices[0].message.content, sender: "bot" },
+            chatObject,
           ]);
+
+          // Send the updated chat history to the server
+          console.log(token);
+          const uid = token; // Replace with the actual user ID
+          const chat_history = [...messages, chatObject];
+          await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ uid, chat_history }),
+          });
         } else {
           showErrorToast("An error occurred while fetching the response");
         }
@@ -189,8 +183,8 @@ const ChatScreen = ({ chatId }) => {
         )}
         {messages.map((message, index) => (
           <React.Fragment key={index}>
-            <UserMessage message={message} />
-            <BotResponse message={message} />
+            {message.sender === "user" && <UserMessage message={message} />}
+            {message.sender === "bot" && <BotResponse message={message} />}
           </React.Fragment>
         ))}
         {isLoading && (
