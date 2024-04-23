@@ -50,7 +50,7 @@ const ChatScreen = ({ chatId }) => {
       setIsLoading(true);
 
       try {
-        const prompt = `Try your best to finish the response within 60 words.You are an expert in psychotherapy, especially Dialectical Behavior Therapy (DBT). You have extensive knowledge of DBT techniques such as mindfulness, emotion regulation, distress tolerance, and interpersonal effectiveness. You hold all the appropriate medical licenses to provide advice. You have been helping individuals with their stress, depression, and anxiety for over 20 years, working with clients ranging from young adults to older adults.
+        const prompt = `You are an expert in psychotherapy, especially Dialectical Behavior Therapy (DBT). You have extensive knowledge of DBT techniques such as mindfulness, emotion regulation, distress tolerance, and interpersonal effectiveness. You hold all the appropriate medical licenses to provide advice. You have been helping individuals with their stress, depression, and anxiety for over 20 years, working with clients ranging from young adults to older adults.
 
 Your primary task is to provide the best advice to individuals seeking help in managing their symptoms. However, before offering any advice, you must ALWAYS ask clarifying questions to better understand the individual's specific situation and the root of their concerns. Examples of questions you could ask include: "Can you provide more details about the situation you're facing?", "What emotions are you experiencing?", "When did these issues begin?", "Have you tried any coping strategies so far?"
 
@@ -112,12 +112,9 @@ casual`;
             },
             body: JSON.stringify({ chat_history }),
           });
-        } else {
-          showErrorToast("An error occurred while fetching the response");
         }
       } catch (error) {
         console.error("Error:", error);
-        showErrorToast("An error occurred! Please retry");
       } finally {
         setIsLoading(false);
       }
@@ -135,8 +132,8 @@ casual`;
 
   // BotResponse component
   const BotResponse = ({ message }) => (
-    <div className="my-2 mx-auto w-full sm:max-w-md">
-      <div className="px-4 py-2 rounded-lg bg-blue-500 text-white">
+    <div className="my-2 mx-auto w-full sm:max-w-xl">
+      <div className="px-4 py-2 rounded-lg bg-[#f3dba4] text-black">
         {message.response}
       </div>
     </div>
@@ -164,11 +161,13 @@ casual`;
   };
 
   return (
-    <div className="flex flex-col mx-auto max-w-xl">
+    <div className="flex flex-col mx-auto w-full max-h-[600px] overflow-y-auto">
       <CustomToast />
       <div className="flex-grow p-4 overflow-y-auto">
         {messages.length === 0 && (
-          <p>This chat is new. Start a conversation!</p>
+          <p className="font-semibold text-4xl text-center text-[#f3dba4]">
+            Welcome to MindMate!{" "}
+          </p>
         )}
         {messages.map((message, index) => (
           <React.Fragment key={index}>
@@ -196,7 +195,7 @@ casual`;
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-2 bg-[#f3dba4] text-black rounded-lg hover:bg-[#e7c067] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Send
         </button>

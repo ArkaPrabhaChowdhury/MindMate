@@ -8,7 +8,7 @@ export default function Layout({ children }) {
         <main className="flex">
           <LeftSidebar />
 
-          <section className=" flex min-h-screen flex-1 flex-col items-center bg-dark-1 px-6 pb-10 pt-28 max-md:pb-32 sm:px-10 overflow-y-auto">
+          <section className="flex min-h-screen flex-1 flex-col items-center bg-dark-1 px-6 pb-10 pt-28 max-md:pb-32 sm:px-10 overflow-y-auto">
             <div className="w-full">
               <CheckToken />
               {children}

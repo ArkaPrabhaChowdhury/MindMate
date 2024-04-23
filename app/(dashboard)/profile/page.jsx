@@ -18,8 +18,8 @@ const Profile = () => {
       },
     });
     const data = await res.json();
-    console.log("User data fetched:", data.name);
-    setEmail(data.name);
+    console.log("User data fetched:", data.email);
+    setEmail(data.email);
   } catch (error) {
     console.error("Error fetching user:", error);
   }
@@ -29,18 +29,18 @@ useEffect(() => {
 }, []);
   
  return (
-   <div className="min-h-screen bg-custom-pink flex items-center justify-center">
-     <div className="bg-white shadow-lg rounded p-8 max-w-md w-full">
+   <div className="flex items-center justify-center">
+     <div className="bg-custom-pink shadow-lg rounded-lg p-12 max-w-md w-full">
        <h1 className="text-2xl font-bold text-center mb-4">Profile</h1>
        <div className="mb-4">
-         <label className="block mb-2" htmlFor="email">
-           Email:{email}
+         <label className="block mb-2 font-semibold" htmlFor="email">
+           Email:
          </label>
-         <p className="bg-gray-100 px-4 py-2 rounded">{/* Add user email here */}</p>
+         <p className="bg-gray-100 px-4 py-2 rounded">{email}</p>
        </div>
        <div className="mb-4">
-         <label className="block mb-2" htmlFor="voiceAge">
-           Chatbot Voice Age:
+         <label className="block mb-2 font-semibold" htmlFor="voiceAge">
+           Chatbot Persona:
          </label>
          <select
            id="voiceAge"
