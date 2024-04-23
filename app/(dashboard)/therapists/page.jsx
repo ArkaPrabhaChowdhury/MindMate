@@ -69,7 +69,7 @@ const Modal = ({ children, item }) => {
         <Card className="p-4 bg-white rounded-xl mx-10 border-none">
           <div className="flex flex-col items-center gap-4 lg:flex-row">
             <Avatar className="w-24 h-24">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarImage src="/assets/default.png" alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="p-4">

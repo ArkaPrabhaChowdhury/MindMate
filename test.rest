@@ -2,8 +2,8 @@ POST http://localhost:3000/api/post
 Content-Type: application/json
 
 {
-  "userId": "66269591b046a8be62ac7bdd",
-  "content": "This is a test post"
+  "userId": "66272df730505d49be4eb6cd",
+  "content": "This is a test post",
 }
 
 ###
@@ -16,8 +16,9 @@ PATCH http://localhost:3000/api/post
 Content-Type: application/json
 
 {
-  "commentId": "6626bb047bc53ad33abaf15a",
-  "postId": "6626bb0c7bc53ad33abaf15c"
+  "commentId": "66276c9ad9515c7198e25d3e",
+  "postId": "66275de7d9515c7198e25cd4",
+  "authorName": "Airudh Varma"
 }
 
 ###
