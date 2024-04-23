@@ -1,8 +1,6 @@
 "use client";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Textarea } from "@/components/ui/textarea";
-import { auth } from "@/lib/firebase";
-import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { FaCommentAlt, FaPencilAlt } from "react-icons/fa";
 
@@ -23,7 +21,7 @@ const ThreadsPage = () => {
   const fetchThreads = async () => {
     try {
       setIsLoading(true); // Set loading state to true before fetching data
-      const response = await fetch("/api/community");
+      const response = await fetch("/api/post");
       const data = await response.json();
       setThreads(data);
     } catch (error) {
@@ -55,12 +53,12 @@ const ThreadsPage = () => {
 
   const addPost = async () => {
     try {
-      const response = await fetch("/api/community", {
+      const response = await fetch("/api/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ content, uid }),
+        body: JSON.stringify({ content }),
       });
 
       const data = await response.json();

@@ -1,4 +1,3 @@
-@ -0,0 +1,45 @@
 import User from "@/lib/databases/user";
 import { connectToDB } from "@/lib/mongoose";
 import { NextResponse } from "next/server";
@@ -22,8 +21,8 @@ export async function GET(request) {
     }
 
     // Find the user by UID
-    const user = await User.findOne({ uid });
-    console.log("Found user:", user);
+    // const user = await User.findOne({ uid });
+    // console.log("Found user:", user);
 
     if (!user) {
       // Return an error response if user is not found
