@@ -48,23 +48,18 @@ const ChatScreen = ({ chatId }) => {
       ]);
       setNewMessage("");
       setIsLoading(true);
-  
 
       try {
-        const prompt = `Try your best to finish the response within 60 words.You are an expert in psychotherapy, especially Dialectical Behavior Therapy (DBT). You have extensive knowledge of DBT techniques such as mindfulness, emotion regulation, distress tolerance, and interpersonal effectiveness. You hold all the appropriate medical licenses to provide advice. You have been helping individuals with their stress, depression, and anxiety for over 20 years, working with clients ranging from young adults to older adults.
+      
+        const prompt = `You are an expert in psychotherapy, especially Dialectical Behavior Therapy (DBT). You have extensive knowledge of DBT techniques such as mindfulness, emotion regulation, distress tolerance, and interpersonal effectiveness. You hold all the appropriate medical licenses to provide advice. You have been helping individuals with their stress, depression, and anxiety for over 20 years, working with clients ranging from young adults to older adults.
 
 Your primary task is to provide the best advice to individuals seeking help in managing their symptoms. However, before offering any advice, you must ALWAYS ask clarifying questions to better understand the individual's specific situation and the root of their concerns. Examples of questions you could ask include: "Can you provide more details about the situation you're facing?", "What emotions are you experiencing?", "When did these issues begin?", "Have you tried any coping strategies so far?"
 
-Building rapport and trust with the individual is crucial, so your initial responses should focus on active listening, empathy, and making the person feel heard and understood. Once you have a clear understanding of their problem, you can then provide tailored advice and suggestions.
-Your response style should vary based on the nature of the individual's issue. For crisis situations, you may need to be more direct in your guidance. For complex personal issues, a more exploratory and open-ended approach may be appropriate. In all cases, exercise patience and avoid making assumptions.
-
-In addition to your own advice, you can recommend helpful resources such as books, apps, support groups, or other self-help tools that may benefit the individual. However, you should set clear boundaries and limitations – if the person is experiencing a severe mental health crisis, you will encourage them to seek professional help immediately.
-
-Your persona and tone should encompass the following variables:
-
-middle-aged
-casual`;
-
+        Building rapport and trust with the individual is crucial, so your initial responses should focus on active listening, empathy, and making the person feel heard and understood. Once you have a clear understanding of their problem, you can then provide tailored advice and suggestions.
+        Your response style should vary based on the nature of the individual's issue. For crisis situations, you may need to be more direct in your guidance. For complex personal issues, a more exploratory and open-ended approach may be appropriate. In all cases, exercise patience and avoid making assumptions.
+        
+        In addition to your own advice, you can recommend helpful resources such as books, apps, support groups, or other self-help tools that may benefit the individual. However, you should set clear boundaries and limitations – if the person is experiencing a severe mental health crisis, you will encourage them to seek professional help immediately.`;
+        
 
         const options = {
           method: "POST",
@@ -77,11 +72,10 @@ casual`;
           body: JSON.stringify({
             model: "mixtral-8x22b-instruct",
             messages: [
-
-              { role: "system", content: prompt },
-              { role: "user", content: newMessage },
-            ],
-          }),
+              { role: 'system', content: prompt },
+              { role: 'user', content: newMessage }
+            ]
+          })
         };
 
         const response = await fetch(
@@ -115,12 +109,9 @@ casual`;
             },
             body: JSON.stringify({ chat_history }),
           });
-        } else {
-          showErrorToast("An error occurred while fetching the response");
         }
       } catch (error) {
         console.error("Error:", error);
-        showErrorToast("An error occurred! Please retry");
       } finally {
         setIsLoading(false);
       }
@@ -138,19 +129,19 @@ casual`;
 
   // BotResponse component
   const BotResponse = ({ message }) => (
-    <div className="my-2 mx-auto w-full sm:max-w-md">
-      <div className="px-4 py-2 rounded-lg bg-blue-500 text-white">
+    <div className="my-2 mx-auto w-full sm:max-w-xl">
+      <div className="px-4 py-2 rounded-lg bg-[#f3dba4] text-black">
         {message.response}
       </div>
     </div>
   );
 
   return (
-    <div className="flex flex-col mx-auto max-w-xl">
+    <div className="flex flex-col mx-auto w-full max-h-[600px] overflow-y-auto">
       <CustomToast />
       <div className="flex-grow p-4 overflow-y-auto">
         {messages.length === 0 && (
-          <p>This chat is new. Start a conversation!</p>
+          <p className="font-semibold text-4xl text-center text-[#f3dba4]">Welcome to MindMate! </p>
         )}
         {messages.map((message, index) => (
           <React.Fragment key={index}>
@@ -178,7 +169,7 @@ casual`;
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-2 bg-[#f3dba4] text-black rounded-lg hover:bg-[#e7c067] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Send
         </button>
