@@ -8,6 +8,12 @@ const ChatScreen = ({ chatId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken);
+  }, []);
 
   useEffect(() => {
     const fetchChatHistory = async () => {
@@ -69,10 +75,20 @@ const ChatScreen = ({ chatId }) => {
         const data = await response.json();
   
         if (response.ok) {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { response: data.choices[0].message.content, sender: "bot" },
-          ]);
+          chatObject.response = data.choices[0].message.content;
+          setMessages((prevMessages) => [...prevMessages, { response: data.choices[0].message.content, sender: "bot" }, chatObject]);
+  
+          // Send the updated chat history to the server
+          console.log(token);
+          const uid = token; // Replace with the actual user ID
+          const chat_history = [...messages, chatObject];
+          await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ uid, chat_history })
+          });
         } else {
           showErrorToast("An error occurred while fetching the response");
         }
