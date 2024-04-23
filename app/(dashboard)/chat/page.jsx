@@ -11,7 +11,7 @@ const ChatScreen = ({ chatId }) => {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem("token");
     setToken(storedToken);
   }, []);
 
@@ -80,7 +80,7 @@ const ChatScreen = ({ chatId }) => {
           setMessages((prevMessages) => [...prevMessages, { response: data.choices[0].message.content, sender: "bot" }, chatObject]);
   
           // Send the updated chat history to the server
-          const uid = "W4ElMP4RhMfug4uzSgSRmbAuIv92"; // Replace with the actual user ID
+          const uid = token ; // Replace with the actual user ID
           const chat_history = [...messages, chatObject];
           await fetch('/api/chat', {
             method: 'POST',
