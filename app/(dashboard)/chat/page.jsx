@@ -48,7 +48,6 @@ const ChatScreen = ({ chatId }) => {
       ]);
       setNewMessage("");
       setIsLoading(true);
-  
 
       try {
         const prompt = `Try your best to finish the response within 60 words.You are an expert in psychotherapy, especially Dialectical Behavior Therapy (DBT). You have extensive knowledge of DBT techniques such as mindfulness, emotion regulation, distress tolerance, and interpersonal effectiveness. You hold all the appropriate medical licenses to provide advice. You have been helping individuals with their stress, depression, and anxiety for over 20 years, working with clients ranging from young adults to older adults.
@@ -65,7 +64,6 @@ Your persona and tone should encompass the following variables:
 middle-aged
 casual`;
 
-
         const options = {
           method: "POST",
           headers: {
@@ -77,7 +75,6 @@ casual`;
           body: JSON.stringify({
             model: "mixtral-8x22b-instruct",
             messages: [
-
               { role: "system", content: prompt },
               { role: "user", content: newMessage },
             ],
@@ -144,6 +141,27 @@ casual`;
       </div>
     </div>
   );
+
+  const fetchQuote = async () => {
+    const url =
+      "https://quotes-inspirational-quotes-motivational-quotes.p.rapidapi.com/quote?token=ipworld.info";
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "386309ccecmsh3152cea822ca657p174886jsn94602da94a23",
+        "X-RapidAPI-Host":
+          "quotes-inspirational-quotes-motivational-quotes.p.rapidapi.com",
+      },
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const result = await response.text();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex flex-col mx-auto max-w-xl">
